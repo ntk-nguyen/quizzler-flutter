@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -28,6 +32,46 @@ class _QuizPageState extends State<QuizPage> {
 
   List<Icon> scoreKeeper = [];
 
+  void validateQuestion(bool inputAnswer){
+    bool getQuestionAnswer = quizBrain.getQuestionAnswer();
+    setState(() {
+      if(quizBrain.isFinished() == true){
+        Alert(
+          context: context,
+          type: AlertType.success,
+          buttons: [
+            DialogButton(
+              child: Text('OK'),
+              onPressed: (){
+                Navigator.pop(context);
+                quizBrain.reset();
+                scoreKeeper = [];
+              },
+              )
+            ],
+            title: "Finished!",
+            desc: "You've reached the end of quiz.").show();
+      } else {
+        if (inputAnswer == getQuestionAnswer) {
+          scoreKeeper.add(
+              Icon(
+                Icons.check,
+                color: Colors.green,
+              )
+          );
+        } else {
+          scoreKeeper.add(
+              Icon(
+                Icons.close,
+                color: Colors.red,
+              )
+          );
+        }
+        quizBrain.nextQuestion();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -40,7 +84,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -64,6 +108,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                validateQuestion(true);
                 //The user picked true.
               },
             ),
@@ -82,6 +127,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                validateQuestion(false);
                 //The user picked false.
               },
             ),

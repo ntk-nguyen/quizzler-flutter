@@ -16,6 +16,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # The following line adds the RFlutter Alert to your application
+  rflutter_alert: ^1.0.3
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
