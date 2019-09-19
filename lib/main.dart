@@ -44,13 +44,14 @@ class _QuizPageState extends State<QuizPage> {
               child: Text('OK'),
               onPressed: (){
                 Navigator.pop(context);
-                quizBrain.reset();
-                scoreKeeper = [];
               },
-              )
-            ],
-            title: "Finished!",
-            desc: "You've reached the end of quiz.").show();
+            )
+          ],
+          title: "Finished!",
+          desc: "You've reached the end of quiz."
+        ).show();
+        quizBrain.reset();
+        scoreKeeper = [];
       } else {
         if (inputAnswer == getQuestionAnswer) {
           scoreKeeper.add(
